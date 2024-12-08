@@ -3,8 +3,8 @@ package com.commit.sync.controller;
 import com.commit.sync.model.Commit;
 import com.commit.sync.service.EventoService;
 import java.util.List;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -13,19 +13,16 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-@Slf4j
 @RestController
-@RequestMapping(path = "api/v1/webhook",produces = MediaType.APPLICATION_JSON_VALUE)
-@RequiredArgsConstructor
-public class Webhook {
+@RequestMapping("/api/v1")
+public class WebhookController {
 
-  private EventoService eventoService;
+  @PostMapping("/webhook")
+  public ResponseEntity<String> handleWebhook(@RequestBody String payload) {
+    // Faça o processamento do payload aqui
+    System.out.println("Payload recebido: " + payload);
 
-
-  @PostMapping
-  public ResponseEntity<List<Commit>> evento(@RequestBody Commit commit) {
-    var evento = eventoService.evento(commit);
-    return ResponseEntity.status(HttpStatus.CREATED).body(evento);
+    // Retorne uma resposta para confirmar o recebimento
+    return ResponseEntity.status(HttpStatus.OK).body("Webhook recebido com sucesso!");
   }
-
 }
