@@ -1,9 +1,12 @@
 package com.commit.sync.controller;
 
 import com.commit.sync.model.Commit;
+import com.commit.sync.model.Repository;
 import com.commit.sync.service.EventoService;
 import java.util.List;
 import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -13,16 +16,18 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+@Slf4j
 @RestController
-@RequestMapping("/api/v1")
+@RequestMapping(value = "/api/v1")
 public class WebhookController {
 
-  @PostMapping("/webhook")
-  public ResponseEntity<String> handleWebhook(@RequestBody String payload) {
-    // Faça o processamento do payload aqui
-    System.out.println("Payload recebido: " + payload);
+  private static final Logger logger = LoggerFactory.getLogger(WebhookController.class);
 
-    // Retorne uma resposta para confirmar o recebimento
-    return ResponseEntity.status(HttpStatus.OK).body("Webhook recebido com sucesso!");
+  @PostMapping("/webhook")
+  public ResponseEntity<Repository> handleWebhook(@RequestBody Repository repository) {
+    System.out.println("Repositorio Recebido: " + repository);
+
+    return ResponseEntity.status(HttpStatus.OK).body(repository);
   }
+
 }
